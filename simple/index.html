@@ -1,0 +1,167 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport"
+        content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+  <script src="https://cdn.bootcss.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+  <link href="https://cdn.bootcss.com/bootstrap/3.3.5/css/bootstrap.min.css" rel="stylesheet">
+  <script src="https://cdn.bootcss.com/vue/2.5.9/vue.min.js"></script>
+  <title>Element 按需加载处理</title>
+  <style>
+    #app {
+      margin: 30px auto;
+    }
+  </style>
+</head>
+<body>
+<div id="app" class="container">
+  <div class="row">
+    <div class="col-sm-12">
+      <form>
+        <div class="form-group">
+          <label><kbd>template</kbd></label>
+          <textarea cols="30"
+                    v-model="template"
+                    class="form-control"
+                    rows="12"
+                    placeholder="<template> ..."></textarea>
+        </div>
+
+        <div class="form-group">
+          <label><kbd>import & component</kbd></label>
+          <textarea
+            cols="30"
+            v-model="transform"
+            class="form-control" rows="12"
+            placeholder="import ..."></textarea>
+        </div>
+
+      </form>
+      <button class="btn btn-default" @click="template2transform">转换</button>
+      <button class="btn btn-link" @click="template = transform = ''">清空</button>
+    </div>
+  </div>
+</div>
+
+<script>
+  // 组件列表
+  var components = [
+    'Pagination',
+    'Dialog',
+    'Autocomplete',
+    'Dropdown',
+    'DropdownMenu',
+    'DropdownItem',
+    'Menu',
+    'Submenu',
+    'MenuItem',
+    'MenuItemGroup',
+    'Input',
+    'InputNumber',
+    'Radio',
+    'RadioGroup',
+    'RadioButton',
+    'Checkbox',
+    'CheckboxButton',
+    'CheckboxGroup',
+    'Switch',
+    'Select',
+    'Option',
+    'OptionGroup',
+    'Button',
+    'ButtonGroup',
+    'Table',
+    'TableColumn',
+    'DatePicker',
+    'TimeSelect',
+    'TimePicker',
+    'Popover',
+    'Tooltip',
+    'Breadcrumb',
+    'BreadcrumbItem',
+    'Form',
+    'FormItem',
+    'Tabs',
+    'TabPane',
+    'Tag',
+    'Tree',
+    'Alert',
+    'Slider',
+    'Icon',
+    'Row',
+    'Col',
+    'Upload',
+    'Progress',
+    'Spinner',
+    'Badge',
+    'Card',
+    'Rate',
+    'Steps',
+    'Step',
+    'Carousel',
+    'Scrollbar',
+    'CarouselItem',
+    'Collapse',
+    'CollapseItem',
+    'Cascader',
+    'ColorPicker',
+    'Transfer',
+    'Container',
+    'Header',
+    'Aside',
+    'Main',
+    'Footer',
+    'CollapseTransition',
+  ]
+
+  var vm = new Vue({
+    el: '#app',
+    data: {
+      template: '',
+      transform: '',
+      dict: {},
+    },
+    methods: {
+      template2transform: function() {
+        if (!this.template.replace(/\s/g, '')) {
+          alert('请输入template内容')
+          return false
+        }
+        var self = this
+        var imp = ''
+        var cop = ''
+        Object.keys(this.dict).forEach((item) => {
+          if (self.template.includes(item)) {
+            imp += `${self.dict[item]}, `
+            cop += `'${item}': ${self.dict[item]},`
+          }
+        })
+        imp = `import { ${imp}} from 'element-ui'`
+        cop = `components: { ${cop} },`
+        this.transform = `${imp}
+
+${cop}`
+      },
+      h2b(str) {
+        return str
+          .replace(/([A-Z])/g, m => {
+            return `-${m.toLowerCase()}`
+          })
+      },
+      init() {
+        var self = this
+        components.forEach((item) => {
+          self.dict['el' + self.h2b(item)] = item
+        })
+      },
+    },
+    created() {
+      this.init()
+    },
+  })
+</script>
+</body>
+</html>

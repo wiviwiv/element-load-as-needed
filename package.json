@@ -1,0 +1,22 @@
+{
+  "name": "element-load-as-needed",
+  "version": "1.0.0",
+  "description": "load as needed tools",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/wiviwiv/element-load-as-needed.git"
+  },
+  "keywords": [
+    "element-ui"
+  ],
+  "author": "wivwiv",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/wiviwiv/element-load-as-needed/issues"
+  },
+  "homepage": "https://github.com/wiviwiv/element-load-as-needed#readme"
+}
